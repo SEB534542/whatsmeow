@@ -216,28 +216,31 @@ var ErrDeviceIDMustBeSet = errors.New("device JID must be known before accessing
 // PutDevice stores the given device in this database. This should be called through Device.Save()
 // (which usually doesn't need to be called manually, as the library does that automatically when relevant).
 func (c *Container) PutDevice(device *store.Device) error {
-	if device.ID == nil {
-		return ErrDeviceIDMustBeSet
-	}
-	_, err := c.db.Exec(insertDeviceQuery,
-		device.ID.String(), device.RegistrationID, device.NoiseKey.Priv[:], device.IdentityKey.Priv[:],
-		device.SignedPreKey.Priv[:], device.SignedPreKey.KeyID, device.SignedPreKey.Signature[:],
-		device.AdvSecretKey, device.Account.Details, device.Account.AccountSignature, device.Account.DeviceSignature,
-		device.Platform, device.BusinessName, device.PushName)
+	fmt.Println("Func PutDevice called", c, device)
+	return nil
+	// TODO update below to save to Gob
+	// if device.ID == nil {
+	// 	return ErrDeviceIDMustBeSet
+	// }
+	// _, err := c.db.Exec(insertDeviceQuery,
+	// 	device.ID.String(), device.RegistrationID, device.NoiseKey.Priv[:], device.IdentityKey.Priv[:],
+	// 	device.SignedPreKey.Priv[:], device.SignedPreKey.KeyID, device.SignedPreKey.Signature[:],
+	// 	device.AdvSecretKey, device.Account.Details, device.Account.AccountSignature, device.Account.DeviceSignature,
+	// 	device.Platform, device.BusinessName, device.PushName)
 
-	if !device.Initialized {
-		innerStore := NewSQLStore(c, *device.ID)
-		device.Identities = innerStore
-		device.Sessions = innerStore
-		device.PreKeys = innerStore
-		device.SenderKeys = innerStore
-		device.AppStateKeys = innerStore
-		device.AppState = innerStore
-		device.Contacts = innerStore
-		device.ChatSettings = innerStore
-		device.Initialized = true
-	}
-	return err
+	// if !device.Initialized {
+	// 	innerStore := NewSQLStore(c, *device.ID)
+	// 	device.Identities = innerStore
+	// 	device.Sessions = innerStore
+	// 	device.PreKeys = innerStore
+	// 	device.SenderKeys = innerStore
+	// 	device.AppStateKeys = innerStore
+	// 	device.AppState = innerStore
+	// 	device.Contacts = innerStore
+	// 	device.ChatSettings = innerStore
+	// 	device.Initialized = true
+	// }
+	// return err
 }
 
 // DeleteDevice deletes the given device from this database. This should be called through Device.Delete()
