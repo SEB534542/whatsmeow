@@ -137,7 +137,10 @@ func (device *Device) handleDatabaseError(attemptIndex int, err error, action st
 }
 
 func (device *Device) Save() error {
-	return device.Container.PutDevice(device)
+	// return device.Container.PutDevice(device)
+	// TODO save to gob
+	fmt.Println("Saving... (does not work yet")
+	return nil
 }
 
 func (device *Device) Delete() error {
