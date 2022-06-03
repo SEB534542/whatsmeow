@@ -159,12 +159,13 @@ func (cli *Client) handlePair(deviceIdentityBytes []byte, reqID, businessName, p
 		cli.sendIQError(reqID, 500, "internal-error")
 		return fmt.Errorf("failed to save device store: %w", err)
 	}
-	err = cli.Store.Identities.PutIdentity(mainDeviceJID.SignalAddress().String(), mainDeviceIdentity)
-	if err != nil {
-		_ = cli.Store.Delete()
-		cli.sendIQError(reqID, 500, "internal-error")
-		return fmt.Errorf("failed to store main device identity: %w", err)
-	}
+	// TODO rewrite below to store connection SVDM
+	// err = cli.Store.Identities.PutIdentity(mainDeviceJID.SignalAddress().String(), mainDeviceIdentity)
+	// if err != nil {
+	// 	_ = cli.Store.Delete()
+	// 	cli.sendIQError(reqID, 500, "internal-error")
+	// 	return fmt.Errorf("failed to store main device identity: %w", err)
+	// }
 
 	// Expect a disconnect after this and don't dispatch the usual Disconnected event
 	cli.expectDisconnect()
